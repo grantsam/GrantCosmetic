@@ -8,6 +8,8 @@ use App\Http\Requests\StoreBookingTransactionRequest;
 use App\Http\Resources\Api\BookingTransactionApiResource;
 use App\Models\BookingTransaction;
 use App\Models\Cosmetic;
+use GuzzleHttp\Psr7\FnStream;
+use PhpParser\Node\Expr\FuncCall;
 
 class BookingTransactionController extends Controller
 {
@@ -38,7 +40,7 @@ class BookingTransactionController extends Controller
             {
                 $cosmetic = $cosmetics->firstwhere('id', $product['id']);
                 $totalQuantity += $product['quantity'];
-                $totalPrice += $cosmetics->price * $product['quantity'];
+                $totalPrice += $cosmetic->price * $product['quantity'];
 
                 $tax = 0.12 * $totalPrice;
                 $grandTotal = $totalPrice + $tax;
@@ -75,5 +77,32 @@ class BookingTransactionController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function booking_details(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'booking_trx_id' => 'required|string',
+
+        ]);
+
+        $booking = BookingTransaction::where('email', $request->email)
+        ->where('booking_trx_id', $request->booking_trx_id)
+        ->with([
+            'transactionDetails',
+            'transactionDetails.cosmetic',
+        ])
+        ->first();
+
+        if(!$booking)
+        {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Booking not found'
+            ], 404);
+        }
+        return new BookingTransactionApiResource($booking);
+
     }
 }

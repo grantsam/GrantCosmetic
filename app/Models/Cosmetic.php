@@ -18,7 +18,7 @@ class Cosmetic extends Model
         'thumbnail',
         'description',
         'price',
-        'is_popular', 
+        'is_popular',
         'category_id',
         'brand_id',
         'stock',
@@ -28,6 +28,11 @@ class Cosmetic extends Model
     {
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = Str::slug($value);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 
     public function benefits(): HasMany

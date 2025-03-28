@@ -12,13 +12,13 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/cosmetic/{cosmetic:slug}', [CosmeticController::class, 'show']);
-Route::apiResource('cosmetic', CosmeticController::class);
+Route::apiResource('/cosmetic', CosmeticController::class);
 
 Route::get('/Category/{category:slug}', [CategoryController::class, 'show']);
-Route::apiResource('category', CategoryController::class);
+Route::apiResource('/category', CategoryController::class);
 
 Route::get('/brand/{brand:slug}', [BrandController::class, 'show']);
-Route::apiResource('brand', BrandController::class);
+Route::apiResource('/brand', BrandController::class);
 
-Route::post('/booking-transaction}', [BookingTransactionController::class, 'store']);
-Route::post('check-transaction', [BookingTransactionController::class, 'booking_details']);
+Route::post('/booking-transaction', [BookingTransactionController::class, 'store']);
+Route::post('/check-transaction', [BookingTransactionController::class, 'booking_details']);

@@ -26,7 +26,7 @@ class BookingTransaction extends Model
         'sub_total_amount',
     ];
 
-    public function generateUniqueTrxId()
+    public static function generateUniqueTrxId()
     {
         $prefix = 'GRANT-';
         do {

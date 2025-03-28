@@ -30,12 +30,13 @@ class CosmeticController extends Controller
             $cosmetics = $cosmetics->limit($request->input('limit'));
         }
 
+        $cosmetics = $cosmetics->get();
         return CosmeticApiResource::collection($cosmetics);
     }
 
     public function show(Cosmetic $cosmetic)
     {
-        $cosmetic->load('brand', 'category','benefits','testimonials','photo');
+        $cosmetic->load('brand', 'category','benefits','testimonials','photos');
 
         return new CosmeticApiResource($cosmetic);
     }
