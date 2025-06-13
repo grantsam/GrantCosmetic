@@ -92,6 +92,7 @@ class BookingTransactionController extends Controller
         ->with([
             'transactionDetails',
             'transactionDetails.cosmetic',
+            'transactionDetails.cosmetic.brand',
         ])
         ->first();
 
